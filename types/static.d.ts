@@ -56,4 +56,15 @@ declare module '*.png' {
   export default ref;
 }
 
+declare module '*.frag' {
+  const ref: string;
+  export default ref;
+}
+declare module '*.vert' {
+  const ref: string;
+  export default ref;
+}
+
+
+
 /* CUSTOM: ADD YOUR OWN HERE */
