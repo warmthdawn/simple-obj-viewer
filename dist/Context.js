@@ -7,6 +7,7 @@ export class Context {
     this.vertNumber = 0;
     this.aspect = 1;
     this.transform = new Transform();
+    this.loaded = false;
     this.lightPosition = vec4.fromValues(10, 10, 10, 0);
     this.lightAmbient = vec4.fromValues(0.2, 0.2, 0.2, 1);
     this.lightDiffuse = vec4.fromValues(1, 1, 1, 1);
@@ -24,6 +25,7 @@ export class Context {
     this.updateUniforms();
   }
   loadModel(model) {
+    this.loaded = true;
     const buf = model.toBuffer();
     this.vertNumber = buf.vertNumber;
     this.gl.bindBuffer(this.gl.ARRAY_BUFFER, this.vBuffer);

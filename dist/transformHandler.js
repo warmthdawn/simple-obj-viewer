@@ -30,7 +30,6 @@ export function setupTransformHandler(ctx, cavans) {
   const select = document.getElementById("actionType");
   let leftClick = true;
   cavans.addEventListener("wheel", (ev) => {
-    ev.preventDefault();
     ctx.transform.scale += ev.deltaY / 1e3;
   }, {passive: true});
   cavans.addEventListener("click", (ev) => {

@@ -50,6 +50,7 @@ function handleFile(ctx, file) {
         const model = new ObjectModel();
         model.load(obj);
         ctx.loadModel(model);
+        document.getElementById("canvas-tooltip")?.remove();
       } catch (error) {
         alert("读取文件失败！" + error);
       }

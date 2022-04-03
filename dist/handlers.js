@@ -2,9 +2,11 @@ import {getColor, initShaders} from "./utils.js";
 import WebGLUtils from "./webgl-utils.js";
 import vShader from "./assets/vertex-shader.vert.proxy.js";
 import fShader from "./assets/fragment-shader.frag.proxy.js";
-import {Context} from "./Context.js";
+import defaultModel from "./assets/kitten.obj.proxy.js";
+import {Context, ObjectModel} from "./Context.js";
 import {vec4} from "../_snowpack/pkg/gl-matrix.js";
 import {setupTransformHandler} from "./transformHandler.js";
+import axios from "../_snowpack/pkg/axios.js";
 export async function setupPage() {
   setupInputWheel();
   const canvas = document.getElementById("canvas");
@@ -19,11 +21,23 @@ export async function setupPage() {
   onCanvasResize(ctx, canvas, gl);
   window.onresize = () => onCanvasResize(ctx, canvas, gl);
   const doRender = () => {
-    ctx.render();
+    if (ctx.loaded) {
+      ctx.render();
+    }
     window.requestAnimationFrame(doRender);
   };
   doRender();
+  document.getElementById("loadDefault")?.addEventListener("click", () => {
+    loadDefaultModel(ctx).catch((err) => alert(err));
+  });
   return ctx;
+}
+export async function loadDefaultModel(ctx) {
+  const resp = await axios.get(defaultModel);
+  const model = new ObjectModel();
+  model.load(resp.data);
+  ctx.loadModel(model);
+  document.getElementById("canvas-tooltip")?.remove();
 }
 export function onCanvasResize(ctx, canvas, gl) {
   const parent = canvas.parentElement;
