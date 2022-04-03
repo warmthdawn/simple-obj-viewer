@@ -32,24 +32,13 @@ export function setupTransformHandler(ctx, cavans) {
   cavans.addEventListener("wheel", (ev) => {
     ctx.transform.scale += ev.deltaY / 1e3;
   }, {passive: true});
-  cavans.addEventListener("click", (ev) => {
-    ev.preventDefault();
-    return false;
-  });
   cavans.addEventListener("contextmenu", (ev) => {
     ev.preventDefault();
     return false;
   });
-  cavans.addEventListener("mousedown", (ev) => {
-    dragging = true;
-    [x0, y0] = getMousePos(ev, cavans);
-    leftClick = ev.button === 0;
-    return false;
-  });
   cavans.addEventListener("mousemove", (ev) => {
-    if (!dragging) {
+    if (!dragging)
       return;
-    }
     const [x1, y1] = getMousePos(ev, cavans);
     if (getMouseAction(select) === "rotate") {
       const rotation = ctx.transform.rotation;
@@ -70,8 +59,18 @@ export function setupTransformHandler(ctx, cavans) {
     x0 = x1;
     y0 = y1;
   });
+  cavans.addEventListener("mousedown", (ev) => {
+    dragging = true;
+    [x0, y0] = getMousePos(ev, cavans);
+    leftClick = ev.button === 0;
+    return false;
+  });
   cavans.addEventListener("mouseup", (ev) => {
     dragging = false;
+    return false;
+  });
+  cavans.addEventListener("click", (ev) => {
+    ev.preventDefault();
     return false;
   });
 }
