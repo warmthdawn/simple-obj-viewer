@@ -39,42 +39,32 @@ export function setupTransformHandler(ctx: Context, cavans: HTMLCanvasElement) {
     const select = document.getElementById("actionType")!;
     let leftClick = true;
 
+    //鼠标相关
     cavans.addEventListener('wheel', ev => {
+        //滚轮缩放
         ctx.transform.scale += ev.deltaY / 1000
     }, { passive: true })
 
-    cavans.addEventListener('click', ev => {
-        ev.preventDefault()
-        return false
-    })
+    //屏蔽右键
     cavans.addEventListener('contextmenu', ev => {
         ev.preventDefault()
         return false;
     })
-    cavans.addEventListener('mousedown', ev => {
-        dragging = true;
-        [x0, y0] = getMousePos(ev, cavans)
-        leftClick = ev.button === 0
-        return false
-    })
-
     cavans.addEventListener('mousemove', ev => {
-        if (!dragging) {
+        if (!dragging) 
             return
-        }
         const [x1, y1] = getMousePos(ev, cavans)
-
         if (getMouseAction(select) === 'rotate') {
+            //旋转
             const rotation = ctx.transform.rotation
             if (leftClick) {
                 mat4.mul(rotation, mat4.fromYRotation(mat4.create(), (x1 - x0) * rotateSpeed), rotation)
                 mat4.mul(rotation, mat4.fromXRotation(mat4.create(), -(y1 - y0) * rotateSpeed), rotation)
             } else {
-
                 mat4.mul(rotation, mat4.fromZRotation(mat4.create(), (x1 - x0) * rotateSpeed), rotation)
             }
-
         } else {
+            //平移
             if (leftClick) {
                 ctx.transform.translateY += (y1 - y0)
                 ctx.transform.translateX += (x1 - x0)
@@ -86,9 +76,18 @@ export function setupTransformHandler(ctx: Context, cavans: HTMLCanvasElement) {
         y0 = y1
 
     })
-
+    cavans.addEventListener('mousedown', ev => {
+        dragging = true;
+        [x0, y0] = getMousePos(ev, cavans)
+        leftClick = ev.button === 0
+        return false
+    })
     cavans.addEventListener('mouseup', ev => {
         dragging = false;
+        return false
+    })
+    cavans.addEventListener('click', ev => {
+        ev.preventDefault()
         return false
     })
 }

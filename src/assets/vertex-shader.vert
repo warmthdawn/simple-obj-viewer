@@ -14,21 +14,23 @@ void main()
     
     vec3 pos=-(modelViewMatrix*vPosition).xyz;
     vec3 light=lightPosition.xyz;
+    //光源方向
     vec3 L=normalize(light-pos);
-    
+    //观察向量
     vec3 E=normalize(-pos);
+    //半角向量
     vec3 H=normalize(L+E);
+    //法向量
+    vec3 N=normalize(normalMatrix*vNormal);
     
-    // Transform vertex normal into eye coordinates
-    
-    vec3 N=normalize(normalMatrix*vNormal.xyz);
-    
-    // Compute terms in the illumination equation
+    //环境光分量
     vec4 ambient=ambientProduct;
     
+    //漫反射分量
     float Kd=max(dot(L,N),0.);
     vec4 diffuse=Kd*diffuseProduct;
     
+    //镜面反射分量
     float Ks=pow(max(dot(N,H),0.),shininess);
     vec4 specular=Ks*specularProduct;
     
@@ -36,6 +38,7 @@ void main()
         specular=vec4(0.,0.,0.,1.);
     }
     
+    //坐标变换
     gl_Position=projectionMatrix*modelViewMatrix*vPosition;
     
     fColor=ambient+diffuse+specular;

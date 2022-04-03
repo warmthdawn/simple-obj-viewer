@@ -37,9 +37,6 @@ export class Context {
         this.vBuffer = gl.createBuffer()!;
         this.nBuffer = gl.createBuffer()!;
         gl.enable(gl.DEPTH_TEST);
-
-
-
         this.updateUniforms()
 
     }
@@ -48,6 +45,7 @@ export class Context {
     loadModel(model: ObjectModel) {
         this.loaded = true
         const buf = model.toBuffer()
+        //模型和buffer加载
         this.vertNumber = buf.vertNumber
 
         this.gl.bindBuffer(this.gl.ARRAY_BUFFER, this.vBuffer)
@@ -66,7 +64,7 @@ export class Context {
 
 
     updateUniforms() {
-
+        //Uniforms等加载
         const scale = 0.8;
         const projection = mat4.ortho(mat4.create(), -(1.0 / scale) * this.aspect, (1.0 / scale) * this.aspect, -(1.0 / scale), (1.0 / scale), -200, 200);
         const ambientProduct = vec4.mul(vec4.create(), this.lightAmbient, this.materialAmbient);
@@ -90,25 +88,25 @@ export class Context {
     }
 
     render() {
-
+        //渲染
         this.gl.clear(this.gl.COLOR_BUFFER_BIT | this.gl.DEPTH_BUFFER_BIT);
 
         let modelView = mat4.create();
 
         const scale = Math.exp(this.transform.scale)
 
+        //旋转
         mat4.mul(modelView, this.transform.rotation, modelView)
+        //平移
         mat4.mul(modelView, mat4.fromTranslation(mat4.create(), vec3.fromValues(
             this.transform.translateX, this.transform.translateY, this.transform.translateZ
         )), modelView)
-
-
-
-
+        //缩放
         mat4.scale(modelView, modelView, vec3.fromValues(scale, scale, scale))
         this.gl.uniformMatrix4fv(this.gl.getUniformLocation(this.shader,
             "modelViewMatrix"), false, flatten(modelView));
 
+        //法线变换
         const normalMatrix = mat3.fromValues(
             modelView[0], modelView[1], modelView[2],
             modelView[4], modelView[5], modelView[6],
@@ -137,7 +135,6 @@ export class ObjectModel {
         const vertNumber = this.quads.length * 3
         const pointsArray = []
         const normalsArray = []
-
         for (const quad of this.quads) {
             for (let i = 0; i < 3; i++) {
                 const { vert, normal } = quad[i]
@@ -145,17 +142,14 @@ export class ObjectModel {
                 normalsArray.push(this.normals[normal - 1])
             }
         }
-
-
-
         return {
             points: new Float32Array(flatten(pointsArray)),
             normals: new Float32Array(flatten(normalsArray)),
             vertNumber
         }
     }
-
     load(obj: string) {
+        //模型读取相关
         const lines = obj.split(/\r\n|\n/)
         for (const line of lines) {
             if (!line || line.startsWith('#')) {

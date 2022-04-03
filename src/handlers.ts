@@ -10,6 +10,7 @@ import { setupTransformHandler } from "./transformHandler";
 import axios from "axios";
 
 export async function setupPage() {
+    //初始化相关
     setupInputWheel()
     const canvas = document.getElementById("canvas") as HTMLCanvasElement
 
@@ -17,9 +18,6 @@ export async function setupPage() {
     if (!gl) {
         return Promise.reject("WebGL unsupported")
     }
-
-
-
 
     const shader = (await initShaders(gl, vShader, fShader))!
 
@@ -104,6 +102,7 @@ function addUniformColorHandler(ctx: Context, key: KeyOfValue<Context, vec4>, in
 
 
 function setupUniformHandler(ctx: Context) {
+    //Uniform更新相关
     addUniformColorHandler(ctx, 'lightAmbient', 'lightAmbient')
     addUniformColorHandler(ctx, 'lightDiffuse', 'lightDiffuse')
     addUniformColorHandler(ctx, 'lightSpecular', 'lightSpecular')

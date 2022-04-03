@@ -1,6 +1,7 @@
 import { Context, ObjectModel } from "./Context"
 
 export function initDrop(ctx: Context) {
+    //拖拽和文件读取
     const viewbox = document.getElementById("canvas-parent")
     if (!viewbox) {
         return
@@ -22,9 +23,7 @@ export function initDrop(ctx: Context) {
             return
         }
         if (ev.dataTransfer.items) {
-            // Use DataTransferItemList interface to access the file(s)
             for (let i = 0; i < ev.dataTransfer.items.length; i++) {
-                // If dropped items aren't files, reject them
                 if (ev.dataTransfer.items[i].kind === 'file') {
                     const file = ev.dataTransfer.items[i].getAsFile();
                     if (file) {
@@ -33,7 +32,6 @@ export function initDrop(ctx: Context) {
                 }
             }
         } else {
-            // Use DataTransfer interface to access the file(s)
             for (let i = 0; i < ev.dataTransfer.files.length; i++) {
                 handleFile(ctx, ev.dataTransfer.files[i])
             }
