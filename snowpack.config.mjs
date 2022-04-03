@@ -29,6 +29,6 @@ export default {
   },
   buildOptions: {
     /* ... */
-    baseUrl: '/simple-obj-viewer/'
+    baseUrl: '/simple-obj-viewer'
   },
 };
