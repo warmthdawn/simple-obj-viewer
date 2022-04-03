@@ -46,7 +46,7 @@ export function flatten(v: ArrayLike<number>[] | ArrayLike<number>) {
     return new Float32Array(lo.flatten(v as any))
 }
 
-function getColor(input: HTMLInputElement) {
+export function getColor(input: HTMLInputElement) {
     let hex = input.value
     hex = hex.replace(/#/g, '');
     if (hex.length === 3) {

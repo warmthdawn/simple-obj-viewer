@@ -8,7 +8,6 @@ body {
 
 .content {
   display: flex;
-  
 }
 
 .left {
@@ -43,4 +42,26 @@ body {
   margin: 1px;
   background-color: #41372c31;
   pointer-events: none;
+}
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button { 
+  -webkit-appearance: none; 
+  margin: 0; 
+}
+.light-position {
+  display: inline;
+}
+.light-position input {
+  width: 40px;
+  margin: 0;
+}
+#materialShininess {
+  width: 60px;
+}
+
+.toolbar {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  z-index: 10;
 }

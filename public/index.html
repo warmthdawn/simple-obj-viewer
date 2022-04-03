@@ -14,6 +14,12 @@
     <div class="full-height content">
         <div class="left full-height">
             <div class="container" id="canvas-parent" >
+                <div class="toolbar">
+                    <select id="actionType">
+                        <option value="translate">平移</option>
+                        <option value="rotate">旋转</option>
+                    </select>
+                </div>
                 <canvas id="canvas" width="512" height="512">
                     Oops ... your browser doesn't support the HTML5 canvas element
                 </canvas>
@@ -21,8 +27,25 @@
         </div>
         <div class="right">
             <p>
-                <input type="color" id="color" value="#FFCCDD"><label for="color">颜色</label><br>
+                <input type="color" id="lightAmbient" value="#333333"><label for="lightAmbient">光源环境光</label><br>
+                <input type="color" id="lightDiffuse" value="#FFFFFF"><label for="lightDiffuse">光源漫反射</label><br>
+                <input type="color" id="lightSpecular" value="#FFFFFF"><label for="lightSpecular">光源镜面反射</label><br>
+                <span class="light-position">
+                    <input type="number" id="lightPositionX" value="10">
+                    <input type="number" id="lightPositionY" value="10">
+                    <input type="number" id="lightPositionZ" value="10">
+                    <input type="number" id="lightPositionW" value="0">
+                </span>
+                光源位置<br>
             </p>
+
+            <p>
+                <input type="color" id="materialAmbient" value="#FFFFFF"><label for="materialAmbient">材质环境光</label><br>
+                <input type="color" id="materialDiffuse" value="#FFCC00"><label for="materialDiffuse">材质漫反射</label><br>
+                <input type="color" id="materialSpecular" value="#FFCC00"><label for="materialSpecular">材质镜面反射</label><br>
+                <input type="number" id="materialShininess" value="100"><label for="materialShininess">材质表面高光系数</label><br>
+            </p>
+
 
         </div>
     </div>

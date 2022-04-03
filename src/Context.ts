@@ -1,4 +1,5 @@
-import { glMatrix, mat3, mat4, vec3, vec4 } from "gl-matrix"
+import { glMatrix, mat3, mat4, quat, vec3, vec4 } from "gl-matrix"
+import { Transform } from "./transformHandler"
 import { flatten } from "./utils"
 
 glMatrix.setMatrixArrayType(Array)
@@ -12,6 +13,7 @@ export class Context {
 
     aspect = 1
 
+    transform = new Transform()
 
 
 
@@ -22,7 +24,7 @@ export class Context {
     materialAmbient = vec4.fromValues(1.0, 0.0, 1.0, 1.0);
     materialDiffuse = vec4.fromValues(1.0, 0.8, 0.0, 1.0);
     materialSpecular = vec4.fromValues(1.0, 0.8, 0.0, 1.0);
-    materialShininess = 10.0;
+    materialShininess = 100.0;
 
 
 
@@ -62,9 +64,8 @@ export class Context {
 
     updateUniforms() {
 
-        const viewerPos = vec3.fromValues(0.0, 0.0, -20.0);
-
-        const projection = mat4.ortho(mat4.create(), -1.3 * this.aspect, 1.3* this.aspect, -1.3, 1.3, -200, 200);
+        const scale = 0.8;
+        const projection = mat4.ortho(mat4.create(), -(1.0 / scale) * this.aspect, (1.0 / scale) * this.aspect, -(1.0 / scale), (1.0 / scale), -200, 200);
         const ambientProduct = vec4.mul(vec4.create(), this.lightAmbient, this.materialAmbient);
         const diffuseProduct = vec4.mul(vec4.create(), this.lightDiffuse, this.materialDiffuse);
         const specularProduct = vec4.mul(vec4.create(), this.lightSpecular, this.materialSpecular);
@@ -90,11 +91,18 @@ export class Context {
         this.gl.clear(this.gl.COLOR_BUFFER_BIT | this.gl.DEPTH_BUFFER_BIT);
 
         let modelView = mat4.create();
-        // mat4.rotateX(modelView, )
-        // modelView = mat4.translate(mat4.create(), modelView, vec3.fromValues(
-        //     0, 0, -2
-        // ))
 
+        const scale = Math.exp(this.transform.scale)
+
+        mat4.mul(modelView, this.transform.rotation, modelView)
+        mat4.mul(modelView, mat4.fromTranslation(mat4.create(), vec3.fromValues(
+            this.transform.translateX, this.transform.translateY, this.transform.translateZ
+        )), modelView)
+
+
+
+
+        mat4.scale(modelView, modelView, vec3.fromValues(scale, scale, scale))
         this.gl.uniformMatrix4fv(this.gl.getUniformLocation(this.shader,
             "modelViewMatrix"), false, flatten(modelView));
 
