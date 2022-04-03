@@ -1,0 +1,7 @@
+{
+  "imports": {
+    "axios": "./axios.js",
+    "gl-matrix": "./gl-matrix.js",
+    "lodash": "./lodash.js"
+  }
+}

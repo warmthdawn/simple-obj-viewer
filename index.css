@@ -1,0 +1,67 @@
+html, body, .full-height {
+  height: 100%;
+}
+
+body {
+  margin: 0px;
+}
+
+.content {
+  display: flex;
+}
+
+.left {
+  flex: 5 5 0;
+  padding: 5px;
+  box-sizing: border-box;
+}
+
+.container {
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+}
+
+.container canvas {
+  border: 1px solid;
+  position: absolute;
+  
+}
+
+.right {
+  flex: 1 1 0;
+  padding: 20px 0
+}
+
+.masked::before {
+  content: '';
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  margin: 1px;
+  background-color: #41372c31;
+  pointer-events: none;
+}
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button { 
+  -webkit-appearance: none; 
+  margin: 0; 
+}
+.light-position {
+  display: inline;
+}
+.light-position input {
+  width: 40px;
+  margin: 0;
+}
+#materialShininess {
+  width: 60px;
+}
+
+.toolbar {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  z-index: 10;
+}
