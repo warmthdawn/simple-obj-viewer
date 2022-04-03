@@ -1,1 +1,1 @@
-export default "/dist/assets/fragment-shader.frag";
+export default "/simple-obj-viewer/dist/assets/fragment-shader.frag";

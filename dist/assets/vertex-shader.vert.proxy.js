@@ -1,1 +1,1 @@
-export default "/dist/assets/vertex-shader.vert";
+export default "/simple-obj-viewer/dist/assets/vertex-shader.vert";
