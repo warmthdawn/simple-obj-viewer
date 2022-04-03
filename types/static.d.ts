@@ -64,6 +64,10 @@ declare module '*.vert' {
   const ref: string;
   export default ref;
 }
+declare module '*.obj' {
+  const ref: string;
+  export default ref;
+}
 
 
 

@@ -15,6 +15,8 @@ export class Context {
 
     transform = new Transform()
 
+    loaded = false
+
 
 
     lightPosition = vec4.fromValues(10.0, 10.0, 10.0, 0.0);
@@ -44,6 +46,7 @@ export class Context {
 
 
     loadModel(model: ObjectModel) {
+        this.loaded = true
         const buf = model.toBuffer()
         this.vertNumber = buf.vertNumber
 

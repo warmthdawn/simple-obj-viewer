@@ -3,9 +3,11 @@ import WebGLUtils from "./webgl-utils";
 
 import vShader from "./assets/vertex-shader.vert"
 import fShader from "./assets/fragment-shader.frag"
-import { Context } from "./Context";
+import defaultModel from "./assets/kitten.obj"
+import { Context, ObjectModel } from "./Context";
 import { vec3, vec4 } from "gl-matrix";
 import { setupTransformHandler } from "./transformHandler";
+import axios from "axios";
 
 export async function setupPage() {
     setupInputWheel()
@@ -29,14 +31,28 @@ export async function setupPage() {
     window.onresize = () => onCanvasResize(ctx, canvas, gl)
 
     const doRender = () => {
-        ctx.render()
+        if (ctx.loaded) {
+            ctx.render()
+        }
         window.requestAnimationFrame(doRender)
     }
     doRender()
 
+    document.getElementById("loadDefault")?.addEventListener('click', () => {
+        loadDefaultModel(ctx).catch(err => alert(err))
+    })
+
     return ctx
 }
 
+
+export async function loadDefaultModel(ctx: Context) {
+    const resp = await axios.get(defaultModel);
+    const model = new ObjectModel()
+    model.load(resp.data)
+    ctx.loadModel(model)
+    document.getElementById("canvas-tooltip")?.remove()
+}
 
 export function onCanvasResize(ctx: Context, canvas: HTMLCanvasElement, gl: WebGLRenderingContext) {
     const parent = canvas.parentElement!;

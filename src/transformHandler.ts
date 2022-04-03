@@ -40,7 +40,6 @@ export function setupTransformHandler(ctx: Context, cavans: HTMLCanvasElement) {
     let leftClick = true;
 
     cavans.addEventListener('wheel', ev => {
-        ev.preventDefault()
         ctx.transform.scale += ev.deltaY / 1000
     }, { passive: true })
 
